@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    try {
+      const saved = localStorage.getItem("color-scheme");
+      if (saved === "light" || saved === "dark") {
+        document.querySelector('meta[name="color-scheme"]').content = saved;
+      }
+    } catch (e) {}
+  </script>
+  <title>SAE3.CYBER.03 — Portail Ultime de Révision (Internet · OSPF · BGP · Redistribution)</title>
+  <meta name="description" content="Site de révision complet, détaillé et interactif pour la SAE3.CYBER.03 (BUT R&T 2e année) : Internet, AS, OSPF, BGP, Redistribution, 8 TP/TD corrigés, simulateurs interactifs, QCM, flashcards et dépannage Packet Tracer.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Aller directement au contenu principal</a>
+
+  <!-- Barre supérieure -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button type="button" class="icon-btn mobile-menu-btn" id="mobile-menu-btn" aria-label="Ouvrir le menu de navigation" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <a href="#dashboard" class="brand" data-nav="dashboard">
+        <span class="brand-badge" aria-hidden="true">R3.01</span>
+        <span class="brand-text">
+          <strong>SAE3.CYBER.03</strong>
+          <small>Internet · OSPF · BGP · Packet Tracer</small>
+        </span>
+      </a>
+    </div>
+
+    <div class="topbar-center">
+      <button type="button" class="search-trigger" id="open-search-btn" command="show-modal" commandfor="search-modal" aria-label="Rechercher dans tout le cours (Ctrl+K)">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+        </svg>
+        <span class="search-placeholder">Rechercher une notion, LSA, commande IOS, panne...</span>
+        <kbd>Ctrl+K</kbd>
+      </button>
+    </div>
+
+    <div class="topbar-right">
+      <div class="global-progress-pill" title="Avancement global des révisions">
+        <span class="progress-ring-label" id="topbar-progress-text">0%</span>
+        <div class="progress-bar-mini" aria-hidden="true">
+          <div class="progress-bar-mini-fill" id="topbar-progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <button type="button" class="icon-btn theme-toggle-btn" id="theme-toggle-btn" aria-label="Basculer le thème clair ou sombre" title="Changer de thème">
+        <span class="theme-icon-to-dark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span class="theme-icon-to-light" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41"/></svg>
+        </span>
+      </button>
+
+      <button type="button" class="icon-btn" id="open-settings-btn" command="show-modal" commandfor="settings-modal" aria-label="Paramètres d'affichage et réinitialisation" title="Paramètres">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <!-- Backdrop mobile -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+
+    <!-- Navigation latérale -->
+    <aside class="sidebar" id="sidebar" aria-label="Navigation principale du cours">
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <div class="nav-group-title">Pilotage Examen</div>
+          <a href="#dashboard" class="nav-item" data-nav="dashboard" aria-current="page">
+            <span class="nav-ico" aria-hidden="true">🎯</span>
+            <span class="nav-label">Tableau de bord & DSTP</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Cours Complet (Poly 1–3)</div>
+          <a href="#internet" class="nav-item" data-nav="internet">
+            <span class="nav-ico" aria-hidden="true">🌐</span>
+            <span class="nav-label">1. Internet, Acteurs & AS</span>
+            <span class="nav-status" data-status-for="internet"></span>
+          </a>
+          <a href="#ospf" class="nav-item" data-nav="ospf">
+            <span class="nav-ico" aria-hidden="true">🔀</span>
+            <span class="nav-label">2. Protocole OSPF</span>
+            <span class="nav-status" data-status-for="ospf"></span>
+          </a>
+          <a href="#bgp" class="nav-item" data-nav="bgp">
+            <span class="nav-ico" aria-hidden="true">🌍</span>
+            <span class="nav-label">3. Protocole BGP</span>
+            <span class="nav-status" data-status-for="bgp"></span>
+          </a>
+          <a href="#redistribution" class="nav-item" data-nav="redistribution">
+            <span class="nav-ico" aria-hidden="true">🔗</span>
+            <span class="nav-label">4. OSPF ↔ BGP & Redistrib.</span>
+            <span class="nav-status" data-status-for="redistribution"></span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Pratique & Outils Vivants</div>
+          <a href="#labs" class="nav-item" data-nav="labs">
+            <span class="nav-ico" aria-hidden="true">🛠️</span>
+            <span class="nav-label">5. Tous les TP & TD (×8)</span>
+            <span class="nav-badge">8 labs</span>
+          </a>
+          <a href="#simulators" class="nav-item" data-nav="simulators">
+            <span class="nav-ico" aria-hidden="true">⚡</span>
+            <span class="nav-label">6. Labo & Simulateurs</span>
+            <span class="nav-badge">6 outils</span>
+          </a>
+          <a href="#troubleshooting" class="nav-item" data-nav="troubleshooting">
+            <span class="nav-ico" aria-hidden="true">🩺</span>
+            <span class="nav-label">7. Dépannage & Commandes</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Entraînement Intensif</div>
+          <a href="#quiz" class="nav-item" data-nav="quiz">
+            <span class="nav-ico" aria-hidden="true">🏆</span>
+            <span class="nav-label">8. QCM, DS Blanc & Cartes</span>
+            <span class="nav-badge" id="nav-quiz-badge">110+</span>
+          </a>
+          <a href="#glossary" class="nav-item" data-nav="glossary">
+            <span class="nav-ico" aria-hidden="true">📖</span>
+            <span class="nav-label">9. Glossaire & Anti-Pièges</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-stat">
+          <span>Chapitres maîtrisés</span>
+          <strong id="sidebar-mastered-count">0 / 4</strong>
+        </div>
+        <div class="sidebar-stat">
+          <span>Flashcards validées</span>
+          <strong id="sidebar-cards-count">0 / 54</strong>
+        </div>
+        <div class="sidebar-stat">
+          <span>Meilleur score DS Blanc</span>
+          <strong id="sidebar-best-ds">—</strong>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="main-content" id="main-content" tabindex="-1">
+      <div id="view-container" class="view-container">
+        <!-- Rendu dynamique par app.js -->
+        <noscript>
+          <div class="callout callout-danger">
+            <strong>JavaScript requis :</strong> Ce portail de révision interactif utilise JavaScript localement (100 % hors ligne) pour afficher les modules, simulateurs et QCM. Activez JavaScript pour l'utiliser.
+          </div>
+        </noscript>
+      </div>
+    </main>
+  </div>
+
+  <!-- Notification toast accessible -->
+  <div class="toast-region" aria-live="polite" aria-atomic="true" id="toast-region"></div>
+
+  <!-- Modale Recherche Globale (Native <dialog> conforme modern-web-guidance) -->
+  <dialog id="search-modal" class="modal-dialog search-dialog" closedby="any" aria-labelledby="search-modal-title">
+    <div class="modal-header">
+      <h1 id="search-modal-title" class="modal-title">Recherche globale dans tout le programme</h1>
+      <form method="dialog">
+        <button type="submit" class="icon-btn" aria-label="Fermer la recherche">✕</button>
+      </form>
+    </div>
+    <div class="search-modal-body">
+      <div class="search-input-wrap">
+        <input type="search" id="global-search-input" placeholder="Ex : LSA 3, next-hop-self, totally stub, 224.0.0.5, MED, Active, wildcard, RENATER..." autofocus autocomplete="off">
+        <span class="search-count" id="search-results-count">Tapez un mot-clé</span>
+      </div>
+      <div class="search-quick-chips" id="search-quick-chips">
+        <button type="button" class="chip" data-q="LSA">LSA 1–7</button>
+        <button type="button" class="chip" data-q="totally stub">Totally Stub</button>
+        <button type="button" class="chip" data-q="NSSA">NSSA</button>
+        <button type="button" class="chip" data-q="AS_PATH">AS_PATH</button>
+        <button type="button" class="chip" data-q="next-hop-self">next-hop-self</button>
+        <button type="button" class="chip" data-q="DR/BDR">DR / BDR</button>
+        <button type="button" class="chip" data-q="redistribute">Redistribution</button>
+        <button type="button" class="chip" data-q="MD5">MD5</button>
+        <button type="button" class="chip" data-q="Active">BGP Active</button>
+      </div>
+      <div class="search-results" id="search-results" role="region" aria-label="Résultats de recherche"></div>
+    </div>
+  </dialog>
+
+  <!-- Modale Paramètres (Thème 3 états + Réinitialisation) -->
+  <dialog id="settings-modal" class="modal-dialog" closedby="any" aria-labelledby="settings-modal-title">
+    <div class="modal-header">
+      <h1 id="settings-modal-title" class="modal-title">Paramètres & Progression</h1>
+      <form method="dialog">
+        <button type="submit" class="icon-btn" aria-label="Fermer les paramètres">✕</button>
+      </form>
+    </div>
+    <div class="modal-body">
+      <fieldset class="settings-fieldset">
+        <legend>Thème d'affichage</legend>
+        <p class="muted small">Par défaut, le site suit automatiquement le thème de votre système d'exploitation.</p>
+        <div class="theme-tri-state" role="radiogroup" aria-label="Choix du thème">
+          <label class="radio-card">
+            <input type="radio" name="theme-pref" value="system">
+            <span>
+              <strong>Système</strong>
+              <small id="system-theme-status">Suit l'OS</small>
+            </span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="theme-pref" value="light">
+            <span>
+              <strong>Clair</strong>
+              <small>Fond lumineux</small>
+            </span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="theme-pref" value="dark">
+            <span>
+              <strong>Sombre</strong>
+              <small>Confort nocturne</small>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="settings-section">
+        <h2>Export & Impression</h2>
+        <p class="muted small">Imprimez la vue courante en PDF proprement (sans barre latérale ni menus).</p>
+        <button type="button" class="btn btn-secondary" id="print-current-btn">🖨️ Imprimer cette section</button>
+      </div>
+
+      <div class="settings-section danger-zone">
+        <h2>Réinitialiser ma progression</h2>
+        <p class="muted small">Efface les chapitres cochés, flashcards validées et scores QCM enregistrés dans ce navigateur.</p>
+        <button type="button" class="btn btn-danger" id="reset-progress-btn">Effacer toute ma progression</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Scripts de données et logique (ordre garanti, 100% compatible file:///) -->
+  <script defer src="data-cours.js"></script>
+  <script defer src="data-labs.js"></script>
+  <script defer src="data-quiz.js"></script>
+  <script defer src="app.js"></script>
+</body>
+</html>
